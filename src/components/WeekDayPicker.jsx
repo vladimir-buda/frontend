@@ -121,11 +121,11 @@ export default function WeekDayPicker({ value, onChange }) {
                   ? "bg-green-600 text-white border-green-400"
                   : isToday
                   ? "border-green-500"
-                  : "hover:bg-gray-800"
+                  : "hover:bg-gray-500"
               }`}
             >
               <div>{day}</div>
-              <div className="text-xs opacity-80">
+              <div className="text-xs">
                 {formatDate(date)}
               </div>
             </button>

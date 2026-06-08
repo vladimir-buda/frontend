@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import {format} from 'date-fns';
+import WeekDayPicker from "../components/WeekDayPicker";
+import {API_URL, DEBUG} from "../../config/global";
+
+const formatDate = (date) => format(date, "d.M.yyyy");
 
 export default function HmtPlan() {
   const today = new Date().toISOString().split('T')[0];
@@ -10,27 +15,30 @@ export default function HmtPlan() {
   const notfajka = "𐄂"  
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/planhmt', {
+    axios.get(API_URL+'/api/planhmt', {
       params: { date,shift }
     })
     .then(res => setData(res.data))
   })
 
   return (
-    <div id="print-area">
-      <h2>Plan HMT</h2>
-      <div style={{ marginBottom: 10 }}>
-        Dátum / smena:
-        <input type="date" value={date} onChange={e => setDate(e.target.value)} />
-         <select onChange={e => setShift(e.target.value)}>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-        </select>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">OK</button>
+    <div className="bg-white dark:bg-gray-900 rounded-lg px-1 py-1 ring shadow-xl ring-gray-900/5">
+        <div className="p-1 mt-2 text-black dark:bg-gray-700 rounded-lg dark:text-neutral-400">
+        <h2 className=" text-black dark:text-neutral-400 font-bold">Plan HMT {formatDate(date)}</h2>
+          <WeekDayPicker
+            value={date}
+            onChange={setDate}/>
+            </div>
+         <div className="pl-1 mt-2 text-black dark:bg-gray-700 rounded-lg dark:text-neutral-400">
+          <select onChange={e => setShift(e.target.value)}>
+            <option value="1">Smena 1</option>
+            <option value="2">Smena 2</option>
+            <option value="3">Smena 3</option>
+          </select>
+        
       </div>
 
-      <div className="bg-gray-100 dark:bg-gray-700 rounded-lg px-1 py-1 shadow-xl w-max">
+      <div className="mt-2 bg-gray-100 dark:bg-gray-700 rounded-lg px-1 py-1 shadow-xl w-max">
       <table className="w-full max-w-7xl table-fixed">
         <thead className="text-slate-900 dark:text-slate-50 text-left text-sm font-semibold border-b border-slate-300 dark:border-neutral-600 whitespace-nowrap">
           <tr>
@@ -47,7 +55,7 @@ export default function HmtPlan() {
           </thead>
           <tbody>
             {data.map(u => (
-            <tr className="dark:text-neutral-400 transition delay-150 duration-300 ease-in-out hover:bg-neutral-500 text-s" key={u.ID}>
+            <tr className="dark:text-neutral-400 hover:bg-neutral-500 text-xs" key={u.id}>
               <td className="text-center">{u.First_production ? fajka : notfajka}</td>
               <td className="text-center">{u.Aegis ? fajka : notfajka}</td> 
               <td className="text-center">{u.SmartVision ? fajka : notfajka}</td>  

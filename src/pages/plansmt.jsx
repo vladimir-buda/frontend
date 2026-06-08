@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {format} from 'date-fns';
 import WeekDayPicker from "../components/WeekDayPicker";
+import {API_URL, DEBUG} from "../../config/global";
 
 const formatDate = (date) => format(date, "d.M.yyyy");
 
 
-  function TdEdit({ u }) {
+function TdEdit({u, collumn}) {
   const [editing, setEditing] = useState(null);
   const saveField = () => {setEditing(null)}
   return (
@@ -14,10 +15,10 @@ const formatDate = (date) => format(date, "d.M.yyyy");
       {editing?.id === u.id ? (
         <input className="size-full"
           autoFocus
-          defaultValue={u.Note}
+          defaultValue={u[collumn]}
           onBlur={(e) => saveField()}
         />
-      ) : ( u.Note)}
+      ) : ( u[collumn])}
     </td>
   );
 }
@@ -28,7 +29,7 @@ function Tabulka({ date,shift }) {
   const notfajka = "𐄂"  
   useEffect(() => {
     if (!date || !shift) return;
-      axios.get('http://localhost:3000/api/plansmt', {
+      axios.get(API_URL+'/api/plansmt', {
       params: { date, shift },
       withCredentials: true
     })
@@ -66,8 +67,7 @@ return(
               <td>{u.Plan}</td>   
               <td className="truncate">{u.PastaGlue}</td>
               <td className="truncate">{u.Setup}</td>
-              <TdEdit u={u}
-              />
+              <TdEdit u={u} collumn="Note"/>
             </tr>
           ))}
         </tbody>
@@ -84,15 +84,15 @@ export default function f() {
 
   return (
     <div className="bg-white dark:bg-gray-900 rounded-lg px-1 py-1 ring shadow-xl ring-gray-900/5">
+        <div className=" mt-2 text-black dark:bg-gray-700 rounded-lg dark:text-neutral-400">
+        <h2 className="text-black dark:text-neutral-400 font-bold">Plan SMT {formatDate(date)}</h2>
+       </div>
        <div className="no-print p-1 text-black dark:bg-gray-700 rounded-lg dark:text-neutral-400">
            <WeekDayPicker
            value={date}
-           onChange={setDate}
-      />
-    </div>
-    <div className=" mt-2 p-1 text-black dark:bg-gray-700 rounded-lg dark:text-neutral-400">
-        <h2 className="text-black dark:text-neutral-400 font-bold">Plan SMT {formatDate(date)}</h2>
-    </div>
+           onChange={setDate}/>
+       </div>
+
       <div className="flex flex-row">
       
       <div>

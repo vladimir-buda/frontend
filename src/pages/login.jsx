@@ -5,7 +5,7 @@ export default function Login({ onLogin }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  useEffect(() => {
+/*   useEffect(() => {
         try {
       const res = await axios.get('http://localhost:3000/api/auth/me'
      ,{ withCredentials: true }
@@ -18,7 +18,7 @@ export default function Login({ onLogin }) {
       alert('Login failed')
     }
   })
-
+ */
 
   const handleLogin = async () => {
     try {

@@ -6,6 +6,9 @@ import Products from './pages/products'
 import PlanHmt from './pages/planhmt'
 import PlanSmt from './pages/plansmt'
 
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log("zxcvb---"+apiUrl)
+
 function App() {
   const [isAuth, setIsAuth] = useState(!!sessionStorage.getItem('user'))
   if (!isAuth) {
@@ -13,8 +16,8 @@ function App() {
   }
 
   return (
-    <div className="min-w-screen w-max min-h-screen max-h-max bg-green-200 dark:bg-neutral-900 flex flex-col justify-items-start gap-6 p-0">
-      <div className=" p-2 bg-green-200 dark:bg-neutral-700 sticky top-0">
+    <div className="min-w-screen w-max min-h-screen max-h-max bg-neutral-200 dark:bg-neutral-900 flex flex-col justify-items-start p-0">
+      <div className=" p-2 bg-neutral-200 dark:bg-neutral-700 sticky top-0">
         <nav className="no-print text-black dark:text-neutral-400">
         <Link to="/">Users</Link> |{" "}
         <Link to="/products">Products</Link>|{" "}
