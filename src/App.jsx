@@ -7,7 +7,7 @@ import PlanHmt from './pages/planhmt'
 import PlanSmt from './pages/plansmt'
 
 const apiUrl = import.meta.env.VITE_API_URL;
-console.log("zxcvb---"+apiUrl)
+
 
 function App() {
   const [isAuth, setIsAuth] = useState(!!sessionStorage.getItem('user'))
